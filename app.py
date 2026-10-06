@@ -3,28 +3,21 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-# Configurazione della pagina
+# --- STREAMLIT PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Drug-Disease Link Predictor",
-    page_icon="🧬",
-    layout="wide",
+    page_title="Drug-Disease Link Predictor", page_icon="🧬", layout="wide"
 )
 
-# Titolo dell'applicazione e descrizione iniziale
+# --- APPLICATION TITLE ---
 st.title("🧬 Drug-Disease Link Predictor")
+
+# 1. RIASSUNTO BREVE DELLA CAPTION (SOPRA LA BARRA DI RICERCA)
 st.caption(
-    """
-    **About the Data & Predictions**  
-    Link prediction is a mathematical method that analyzes known connections within a network to estimate the likelihood of undiscovered links.  
-    This application uses the verified database of therapeutic associations curated by **Newman and Polanco** to suggest potential candidates for **drug repurposing**.
-    
-    **Key Limitations & Disclaimer:**
-    - **Topology-Based:** Predictions rely strictly on network structure and observed interactions. The model does not account for side effects, drug-drug interactions, or patient comorbidities.
-    - **Probabilistic Output:** Generated using stochastic algorithms, these predictions are preliminary research suggestions for early-stage screening and **must be validated by medical and pharmacological experts**.
-    """
+    "Predictions were generated based on Probabilistic Network Inference for drug repurposing."
 )
 
-# 1. Caricamento dati JSON con cache per prestazioni ottimali
+
+# --- LOAD DATA WITH CACHING ---
 @st.cache_data
 def load_data():
     drugs_file = Path("drugs.json")
@@ -44,44 +37,39 @@ def load_data():
     return drugs_data, diseases_data
 
 
-# Caricamento in memoria
 drugs_data, diseases_data = load_data()
 
-# 2. Barra Laterale (Sidebar) - Totalmente sicura e nativa
-st.sidebar.title("About fab-app")
-st.sidebar.info(
-    """
-    fab-app provides a user-friendly interface for exploring **drug-disease link predictions** based on a bipartite network model.
-    
-    Developed as part of a **Master's Thesis project** on *Deterministic and Stochastic Network Inference*.
-    
-    - **Goal:** Link prediction for drug repurposing on a bipartite network.
-    - **Model:** Nested Degree-Corrected Stochastic Block Model (**nDCSBM**).
-    - **Inference:** 300 MCMC sweeps performed using `graph-tool`.
-    """
-)
 
-# 3. Selezione modalità di ricerca
+# 2. BARRA DI RICERCA (ST.RADIO)
 search_mode = st.radio(
     "Select search mode:",
     options=["Search by Disease", "Search by Drug"],
     horizontal=True,
 )
 
-# 4. Ricerca e visualizzazione dati
+
+
+# --- 4. DROPDOWN SEARCH & TABLE DISPLAY ---
 if search_mode == "Search by Disease":
     if not diseases_data:
-        st.error("File 'diseases.json' was not found or is empty in the current directory.")
+        st.error(
+            "File 'diseases.json' was not found or is empty in the current directory."
+        )
     else:
-        disease_list = ["-- Select a Disease --"] + sorted(list(diseases_data.keys()))
+        disease_list = sorted(list(diseases_data.keys()))
+
         selected_disease = st.selectbox(
             "Select a Disease from the dropdown menu:",
             options=disease_list,
+            index=None,
+            placeholder="Type or select a disease to search...",
         )
 
-        if selected_disease and selected_disease != "-- Select a Disease --":
+        if selected_disease:
             predictions = diseases_data.get(selected_disease, [])
-            st.subheader(f"Predicted Candidate Drugs for: **{selected_disease}**")
+            st.subheader(
+                f"Predicted Candidate Drugs for:  **{selected_disease}** "
+            )
 
             if predictions:
                 df = pd.DataFrame(predictions)
@@ -95,17 +83,24 @@ if search_mode == "Search by Disease":
 
 else:
     if not drugs_data:
-        st.error("File 'drugs.json' was not found or is empty in the current directory.")
+        st.error(
+            "File 'drugs.json' was not found or is empty in the current directory."
+        )
     else:
-        drug_list = ["-- Select a Drug --"] + sorted(list(drugs_data.keys()))
+        drug_list = sorted(list(drugs_data.keys()))
+
         selected_drug = st.selectbox(
             "Select a Drug from the dropdown menu:",
             options=drug_list,
+            index=None,
+            placeholder="Type or select a drug to search...",
         )
 
-        if selected_drug and selected_drug != "-- Select a Drug --":
+        if selected_drug:
             predictions = drugs_data.get(selected_drug, [])
-            st.subheader(f"Predicted Candidate Diseases for: **{selected_drug}**")
+            st.subheader(
+                f"Predicted Candidate Diseases for:  **{selected_drug}** "
+            )
 
             if predictions:
                 df = pd.DataFrame(predictions)
@@ -117,17 +112,46 @@ else:
             else:
                 st.info("No predictions found for the selected drug.")
 
-# 5. Footer a fine pagina (HTML semplice e isolato)
+# 3. CAPTION DETTAGLIATA (SOTTO LA BARRA DI RICERCA)
+st.caption(
+    """
+    **About the Data & Predictions**  
+    Link prediction is a mathematical method that analyzes known connections within a network to estimate the likelihood of undiscovered links.  
+    This application uses the verified database of therapeutic associations curated by **Newman and Polanco** to suggest potential candidates for **drug repurposing**.
+    
+    **Key Limitations & Disclaimer:**
+    - **Topology-Based:** Predictions rely strictly on network structure and observed interactions. The model does not account for side effects, drug-drug interactions, or patient comorbidities.
+    - **Probabilistic Output:** Generated using stochastic algorithms, these predictions are preliminary research suggestions for early-stage screening and **must be validated by medical and pharmacological experts**.
+    """
+)
+
+
+# --- SIDEBAR (TECHNICAL DETAILS & THESIS INFO) ---
+st.sidebar.title("About fab-app")
+st.sidebar.info(
+    """
+    **Drug-Disease Link Predictor**
+    
+    Developed as part of a **Master's Thesis project** on *Deterministic and Stochastic Network Inference*.
+    
+    - **Goal:** Link prediction for drug repurposing on a bipartite network.
+    - **Model:** Nested Degree-Corrected Stochastic Block Model (**nDCSBM**).
+    - **Inference:** **300 MCMC sweeps** performed using `graph-tool`.
+    """
+)
+
+
+# --- MAIN PAGE FOOTER ---
 st.markdown("---")
 st.markdown(
     """
     <div style="
-        background-color: #f5dfc6;
-        padding: 20px;
-        border-radius: 12px;
-        border: 1px solid #EAE6DF;
-        text-align: center;
-        margin-top: 30px;
+    background-color: #f5dfc6;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #EAE6DF;
+    text-align: center;
+    margin-top: 30px;
     ">
         <p style="color: #31333F; margin: 0; font-size: 1rem; font-weight: 500;">
             Developed by <b>Federica</b> | Master's Thesis Project
