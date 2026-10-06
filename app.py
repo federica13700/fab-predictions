@@ -12,8 +12,17 @@ st.set_page_config(
 
 # Titolo dell'applicazione e descrizione iniziale
 st.title("🧬 Drug-Disease Link Predictor")
-st.caption("Predictions were generated based on Probabilistic Network Inference.")
-
+st.caption(
+    """
+    **About the Data & Predictions**  
+    Link prediction is a mathematical method that analyzes known connections within a network to estimate the likelihood of undiscovered links.  
+    This application uses the verified database of therapeutic associations curated by **Newman and Polanco** to suggest potential candidates for **drug repurposing**.
+    
+    **Key Limitations & Disclaimer:**
+    - **Topology-Based:** Predictions rely strictly on network structure and observed interactions. The model does not account for side effects, drug-drug interactions, or patient comorbidities.
+    - **Probabilistic Output:** Generated using stochastic algorithms, these predictions are preliminary research suggestions for early-stage screening and **must be validated by medical and pharmacological experts**.
+    """
+)
 
 # 1. Caricamento dati JSON con cache per prestazioni ottimali
 @st.cache_data
@@ -41,9 +50,15 @@ drugs_data, diseases_data = load_data()
 # 2. Barra Laterale (Sidebar) - Totalmente sicura e nativa
 st.sidebar.title("About fab-app")
 st.sidebar.info(
-    "**Drug-Disease Link Predictor** is an interactive tool for drug repurposing based on Probabilistic Network Inference. "
-    "Predictions are inferred using 300 MCMC steps of a nested Degree-Corrected "
-    "Stochastic Block Model (nDCSBM) on a bipartite network."
+    """
+    fab-app provides a user-friendly interface for exploring **drug-disease link predictions** based on a bipartite network model.
+    
+    Developed as part of a **Master's Thesis project** on *Deterministic and Stochastic Network Inference*.
+    
+    - **Goal:** Link prediction for drug repurposing on a bipartite network.
+    - **Model:** Nested Degree-Corrected Stochastic Block Model (**nDCSBM**).
+    - **Inference:** 300 MCMC sweeps performed using `graph-tool`.
+    """
 )
 
 # 3. Selezione modalità di ricerca
