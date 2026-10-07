@@ -7,7 +7,38 @@ import streamlit as st
 st.set_page_config(
     page_title="Drug-Disease Link Predictor", page_icon="🧬", layout="wide"
 )
+# --- AUMENTO DIMENSIONE FONT GLOBALE E TITOLO (CSS CORRETTO) ---
+st.markdown(
+    """
+    <style>
+    /* 1. Font generale di base per i testi normali */
+    html, body, p, label, span {
+        font-size: 1.1rem;
+    }
 
+    /* 2. Dimensione specifica per le caption */
+    [data-testid="stCaptionContainer"] p {
+        font-size: 1.15rem !important;
+    }
+
+    /* 3. Riduzione specifica per il menu a tendina (selectbox) */
+    div[data-testid="stSelectbox"] label,
+    div[data-testid="stSelectbox"] label p,
+    div[data-testid="stSelectbox"] div[data-baseweb="select"] *,
+    div[data-baseweb="popover"] *,
+    ul[role="listbox"] li * {
+        font-size: 0.85rem !important;
+    }
+
+    /* 4. Titolo principale (posizionato alla fine per prevalere su tutto) */
+    h1, h1 *, [data-testid="stHeader"] h1, [data-testid="stHeadingWithTitle"] * {
+        font-size: 2.25rem !important;
+        line-height: 1.2 !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 # --- APPLICATION TITLE ---
 st.title("🧬 Drug-Disease Link Predictor")
 
@@ -116,12 +147,15 @@ else:
 st.caption(
     """
     **About the Data & Predictions**  
+
     Link prediction is a mathematical method that analyzes known connections within a network to estimate the likelihood of undiscovered links.  
     This application uses the verified database of therapeutic associations curated by **Newman and Polanco** to suggest potential candidates for **drug repurposing**.
     
+    
     **Key Limitations & Disclaimer:**
-    - **Topology-Based:** Predictions rely strictly on network structure and observed interactions. The model does not account for side effects, drug-drug interactions, or patient comorbidities.
-    - **Probabilistic Output:** Generated using stochastic algorithms, these predictions are preliminary research suggestions for early-stage screening and **must be validated by medical and pharmacological experts**.
+
+    Predictions are**Topology-Based:** they rely strictly on network structure and observed interactions. **The model does not account for side effects, drug-drug interactions, or patient comorbidities.**
+    Predictions were generated using stochastic algorithms, therefore these predictions are preliminary research suggestions for early-stage screening and **must be validated by medical and pharmacological experts**.
     """
 )
 
@@ -131,7 +165,7 @@ st.sidebar.title("About fab-app")
 st.sidebar.info(
     """
     **Drug-Disease Link Predictor**
-    
+
     Developed as part of a **Master's Thesis project** on *Deterministic and Stochastic Network Inference*.
     
     - **Goal:** Link prediction for drug repurposing on a bipartite network.
