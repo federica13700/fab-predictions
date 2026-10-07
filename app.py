@@ -151,10 +151,10 @@ st.caption(
     Link prediction is a mathematical method that analyzes known connections within a network to estimate the likelihood of undiscovered links.  
     This application uses the verified database of therapeutic associations curated by **Newman and Polanco** to suggest potential candidates for **drug repurposing**.
     
-    
+
     **Key Limitations & Disclaimer:**
 
-    Predictions are**Topology-Based:** they rely strictly on network structure and observed interactions. **The model does not account for side effects, drug-drug interactions, or patient comorbidities.**
+    Predictions are **Topology-Based:** they rely strictly on network structure and observed interactions. **The model does not account for side effects, drug-drug interactions, or patient comorbidities.**
     Predictions were generated using stochastic algorithms, therefore these predictions are preliminary research suggestions for early-stage screening and **must be validated by medical and pharmacological experts**.
     """
 )
