@@ -5,7 +5,7 @@ import streamlit as st
 
 # --- STREAMLIT PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Drug-Disease Link Predictor", layout="wide" # , page_icon=""
+    page_title="Drug-Disease Link Predictor", layout="wide"  , page_icon = "logofabapp.png"# , page_icon=""
 )
 # --- AUMENTO DIMENSIONE FONT GLOBALE E TITOLO (CSS CORRETTO) ---
 st.markdown(
@@ -40,7 +40,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 # --- APPLICATION TITLE ---
-st.title("🧬 Drug-Disease Link Predictor")
+st.title("Drug-Disease Link Predictor")
 
 # 1. RIASSUNTO BREVE DELLA CAPTION (SOPRA LA BARRA DI RICERCA)
 st.caption(
