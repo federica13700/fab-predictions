@@ -5,7 +5,7 @@ import streamlit as st
 
 # --- STREAMLIT PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Drug-Disease Link Predictor", page_icon="🧬", layout="wide"
+    page_title="Drug-Disease Link Predictor", layout="wide" # , page_icon=""
 )
 # --- AUMENTO DIMENSIONE FONT GLOBALE E TITOLO (CSS CORRETTO) ---
 st.markdown(
